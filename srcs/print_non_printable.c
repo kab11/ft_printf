@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 21:01:00 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 17:45:29 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 01:02:07 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_twenty_to_thirty(t_env *e, char c)
 	else if (c == 23)
 		write(e->fd, "[ETB]", 5);
 	else if (c == 24)
-		write(e->fd, "[CAN]", 4);
+		write(e->fd, "[CAN]", 5);
 	else if (c == 25)
 		write(e->fd, "[EM]", 4);
 	else if (c == 26)
@@ -59,7 +59,7 @@ void	print_ten_to_twenty(t_env *e, char c)
 	else if (c == 19)
 		write(e->fd, "[DC3]", 5);
 	else if (c == 20)
-		write(e->fd, "[DC4]", 4);
+		write(e->fd, "[DC4]", 5);
 }
 
 void	print_zero_to_ten(t_env *e, char c)
@@ -92,14 +92,12 @@ void	spec_non_printable(t_env *e)
 {
 	char	*tmp;
 	char	*s;
-	int		len;
 	int		i;
 
 	init_str_arg(e, &tmp);
 	s = (char*)tmp;
-	len = ft_strlen(s);
 	i = -1;
-	while (++i < len)
+	while (++i < e->flag.width)
 	{
 		if (s[i] >= 0 && s[i] <= 10)
 			print_zero_to_ten(e, s[i]);

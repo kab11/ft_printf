@@ -6,7 +6,7 @@
 #    By: mikim <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/27 09:44:56 by mikim             #+#    #+#              #
-#    Updated: 2017/04/26 15:41:00 by mikim            ###   ########.fr        #
+#    Updated: 2017/04/26 20:02:29 by mikim            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC = ft_printf.c\
 	  print_invalid.c\
 	  print_non_printable.c\
 	  print_prec_tools.c\
+	  print_dice.c\
 	  settings.c\
 	  ft_atoi.c\
 	  ft_itoa.c\

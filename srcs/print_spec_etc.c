@@ -6,23 +6,11 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 21:37:17 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 17:43:20 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 01:08:36 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-void	spec_time(t_env *e)
-{
-	time_t		t;
-	struct tm	*tm;
-
-	t = time(NULL);
-	tm = localtime(&t);
-	e->out = asctime(tm);
-	e->ret += write(e->fd, e->out, ft_strlen(e->out));
-	e->i++;
-}
 
 void	spec_ptraddr(t_env *e, char type)
 {

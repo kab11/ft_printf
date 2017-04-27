@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 16:21:32 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 17:43:37 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/26 23:45:13 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,9 @@ void	set_colo(const char *restrict fmt, t_env *e)
 
 void	check_settings(const char *restrict fmt, t_env *e)
 {
+	int tmp;
+
+	tmp = e->i;
 	if (!ft_strncmp(fmt + e->i, "{OFF}", 5))
 	{
 		e->ret += write(e->fd, "\x1B[0m", 4);
@@ -120,5 +123,6 @@ void	check_settings(const char *restrict fmt, t_env *e)
 		set_light_colo(fmt, e);
 	else
 		set_colo(fmt, e);
-	e->ret += write(e->fd, &fmt[e->i++], 1);
+	if (tmp == e->i)
+		e->ret += write(e->fd, &fmt[e->i++], 1);
 }

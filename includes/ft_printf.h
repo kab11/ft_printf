@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 14:29:51 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 18:04:52 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 01:09:13 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 # define FT_PRINTF_H
 
 # include <unistd.h>
-# include <string.h>
 # include <stdlib.h>
 # include <stdarg.h>
 # include <wchar.h>
 # include <limits.h>
-# include <time.h>
-# include <stddef.h>
 # include <stdint.h>
 
 typedef enum	e_tag
@@ -118,7 +115,6 @@ void			spec_precision(t_env *e, char type);
 void			spec_base(t_env *e, char type);
 void			spec_return(t_env *e);
 void			spec_ptraddr(t_env *e, char type);
-void			spec_time(t_env *e);
 void			spec_non_printable(t_env *e);
 void			spec_percent(t_env *e);
 
@@ -229,6 +225,12 @@ void			print_non_printable(t_env *e);
 void			print_zero_to_ten(t_env *e, char c);
 void			print_ten_to_twenty(t_env *e, char c);
 void			print_twenty_to_thirty(t_env *e, char c);
+
+/*
+**				print_dice
+*/
+
+void			print_dice(t_env *e);
 
 /*
 **				settings
