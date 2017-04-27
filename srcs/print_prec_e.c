@@ -1,0 +1,98 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_prec_e.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
+/*   Updated: 2017/04/26 17:41:18 by mikim            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
+
+void	get_exponent(long double d, char type, char **expo)
+{
+	char	*tmp[2];
+	int		ex;
+
+	d < 0 ? d *= -1 : 0;
+	ex = 0;
+	while (d >= 10)
+	{
+		d /= 10;
+		ex++;
+	}
+	while (d < 1)
+	{
+		d *= 10;
+		ex--;
+	}
+	if (ex > 9 || ex < -9)
+		tmp[0] = ft_strjoin(type == 'e' ? "e" : "E", ex < 0 ? "-" : "+");
+	else
+		tmp[0] = ft_strjoin(type == 'e' ? "e" : "E", ex < 0 ? "-0" : "+0");
+	tmp[1] = ft_itoa(ex);
+	*expo = ft_strjoin(tmp[0], tmp[1]);
+}
+
+long	get_prec_num_e(long double d, int prec)
+{
+	int	neg;
+	int	i;
+
+	neg = (d < 0 ? -1 : 1);
+	d *= neg;
+	while (d < 10)
+		d *= 10;
+	i = -1;
+	while (++i < prec)
+		d *= 10;
+	d += 0.5;
+	d *= neg;
+	return ((long)d);
+}
+
+void	ftoa_prec_e(t_env *e, long double d, char type)
+{
+	char	*tmp;
+	char	*nb;
+	char	*expo;
+	long	num;
+	int		prec;
+
+	prec = (e->flag.prec >= 0 ? e->flag.prec : 6);
+	num = get_prec_num_e(d, prec);
+	nb = ft_ftoa(num);
+	get_exponent(d, type, &expo);
+	tmp = (d < 0 ? ft_str_prec(nb, 2, prec, e->flag.hash)
+	: ft_str_prec(nb, 1, prec, e->flag.hash));
+	e->out = ft_strjoin(tmp, expo);
+	free(nb);
+	free(tmp);
+	free(expo);
+}
+
+void	print_prec_e(t_env *e, long double d, char type)
+{
+	ftoa_prec_e(e, d, type);
+	if (e->flag.minus)
+	{
+		if (d > 0 && (e->flag.plus || e->flag.sp))
+			e->ret += (e->flag.plus == 1 ?
+			write(e->fd, "+", 1) : write(e->fd, " ", 1));
+		e->ret += write(e->fd, e->out, ft_strlen(e->out));
+		print_prec_width(e);
+	}
+	else
+	{
+		print_prec_width(e);
+		if (d > 0 && (e->flag.plus || e->flag.sp))
+			e->ret += (e->flag.plus == 1 ? write(e->fd, "+", 1) :
+			write(e->fd, " ", 1));
+		e->ret += write(e->fd, e->out, ft_strlen(e->out));
+	}
+	e->i++;
+	free(e->out);
+}
