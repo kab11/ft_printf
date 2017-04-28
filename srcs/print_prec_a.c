@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 18:57:18 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 01:58:48 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 02:28:18 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	ftoa_prec_a(t_env *e, double d, char type)
 		e->out = (d == 0 ? ft_strjoin("0", ep) : ft_strjoin("1", ep));
 	else
 	{
-		tmp = (d == 0 ? ft_strjoin("0", frac) : ft_strjoin("1.", frac));
+		tmp = (d == 0 ? ft_strdup(frac) : ft_strjoin("1.", frac));
 		e->out = ft_strjoin(tmp, ep);
 		free(tmp);
 	}
