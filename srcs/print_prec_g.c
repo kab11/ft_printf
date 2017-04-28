@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 02:51:05 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 03:12:42 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	ftoa_prec_fg(t_env *e, long double d, int end)
 	prec = ft_strlen(tmp);
 	num = get_prec_num_f(d, end);
 	nb = (num == 0 ? ft_strdup("0000000") : ft_ftoa(num));
-	if ((end == prec || d == (long)d) && e->flag.hash == 0)
+	printf("%d %d\n", end , prec);
+	if ((end <= prec || d == (long)d) && e->flag.hash == 0)
 		e->out = ft_strdup(tmp);
 	else
 		e->out = ft_str_prec(nb, prec, end, 0);
@@ -56,8 +57,8 @@ void	ftoa_prec_eg(t_env *e, long double d, char type, int prec)
 	num = get_prec_num_e(d, prec);
 	nb = ft_ftoa(num);
 	get_exponent(d, type, &expo);
-	tmp = ft_str_prec(nb, 1 + (d < 0 ? 1 : 0), prec + (d < 0 ? 1 : 0)
-	, e->flag.hash);
+	tmp = ft_str_prec(nb, 1 + (d < 0 ? 1 : 0),
+	prec + (d < 0 ? 1 : 0) - 1, e->flag.hash);
 	if (!e->flag.hash)
 		delete_zero(tmp);
 	e->out = ft_strjoin(tmp, expo);
