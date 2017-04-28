@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 03:12:42 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 03:14:00 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	ftoa_prec_fg(t_env *e, long double d, int end)
 	prec = ft_strlen(tmp);
 	num = get_prec_num_f(d, end);
 	nb = (num == 0 ? ft_strdup("0000000") : ft_ftoa(num));
-	printf("%d %d\n", end , prec);
 	if ((end <= prec || d == (long)d) && e->flag.hash == 0)
 		e->out = ft_strdup(tmp);
 	else
