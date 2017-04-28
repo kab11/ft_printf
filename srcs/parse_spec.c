@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:25:42 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 03:21:03 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 03:28:27 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,16 @@ void	get_spec_more(const char *restrict fmt, t_env *e)
 		print_invalid_spec(e, fmt[e->i]);
 }
 
+void	asdf(t_env *e, char *fmt)
+{
+	int i;
+
+	i = 1;
+	while (fmt[e->i - --i] != '%')
+		write(1, &fmt[e->i - i], 1);
+	e->i++;
+}
+
 void	get_spec(const char *restrict fmt, t_env *e)
 {
 	if (fmt[e->i] == '%')
@@ -56,6 +66,8 @@ void	get_spec(const char *restrict fmt, t_env *e)
 	else if (((fmt[e->i] == 'c' || fmt[e->i] == 's') && e->mod == l) ||
 			fmt[e->i] == 'C' || fmt[e->i] == 'S')
 		spec_wchar(e, fmt[e->i]);
+	else if (fmt[e->i] == 'e' || fmt[e->i] == 'E')
+		return (asdf(e, fmt));
 	else if (e->mod == L)
 		exit(-1);
 	else if ((fmt[e->i] >= 'e' && fmt[e->i] <= 'g') || fmt[e->i] == 'a' ||
