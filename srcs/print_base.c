@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 18:51:49 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 01:51:40 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,20 @@ void	print_base_pre(t_env *e, char type, long long val)
 		e->ret += (type == 'o' || type == 'O') ? write(e->fd, "0", 1) : 0;
 		e->ret += (type == 'x') ? write(e->fd, "0x", 2) : 0;
 		e->ret += (type == 'X') ? write(e->fd, "0X", 2) : 0;
+		type == 'a' || type == 'A' ? e->flag.width -= 2 : 0;
 	}
 	else if ((type == 'o' || type == 'O') && e->flag.hash && e->flag.prec >= 0)
 		e->ret += write(e->fd, "0", 1);
+	else if (type == 'a' || type == 'A')
+	{
+		if (e->flag.plus || e->flag.sp)
+		{
+			e->ret += e->flag.sp ? write(1, " ", 1) : write(1, "+", 1);
+			e->flag.width--;
+		}
+		e->ret += type == 'a' ? write(e->fd, "0x", 2) : write(e->fd, "0X", 2);
+		e->flag.width -= 2;
+	}
 }
 
 void	print_base_width(t_env *e, char type)

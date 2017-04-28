@@ -6,23 +6,19 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 01:08:42 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 01:38:31 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	delete_zero(char **tmp)
+void	delete_zero(char *tmp)
 {
-	char	*trail;
 	int		i;
 
-	i = ft_strlen(*tmp) - 1;
-	while (tmp[0][i] == '0' && i >= 0)
-		i--;
-	trail = ft_strsub(*tmp, 0, i + 1);
-	free(*tmp);
-	*tmp = trail;
+	i = ft_strlen(tmp);
+	while (--i >= 0 && tmp[i] == '0')
+		tmp[i] = '\0';
 }
 
 void	ftoa_prec_fg(t_env *e, long double d, int end)
@@ -44,7 +40,7 @@ void	ftoa_prec_fg(t_env *e, long double d, int end)
 	else
 		e->out = ft_str_prec(nb, prec, prec + end, e->flag.hash);
 	if (!e->flag.hash && d != 0)
-		delete_zero(&e->out);
+		delete_zero(e->out);
 	free(tmp);
 	free(nb);
 }
@@ -63,7 +59,7 @@ void	ftoa_prec_eg(t_env *e, long double d, char type, int prec)
 	get_exponent(d, type, &expo);
 	tmp = ft_str_prec(nb, 1, prec - 1, e->flag.hash);
 	if (!e->flag.hash)
-		delete_zero(&tmp);
+		delete_zero(tmp);
 	e->out = ft_strjoin(tmp, expo);
 	free(nb);
 	free(tmp);

@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 18:57:18 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 01:06:34 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 01:58:48 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	get_a_expo(double d, char type, char **expo)
 	i = 0;
 	pre[2] = '\0';
 	d < 0 ? d *= -1 : 0;
-	pre[1] = (d > 0 ? '+' : '-');
+	pre[1] = ((d >= 1 || d == 0) ? '+' : '-');
 	pre[0] = type + 15;
-	while (d >= 2 || d < 1)
+	while ((d >= 2 || d < 1) && d != 0)
 	{
 		if (d < 1)
 			d *= 2;
@@ -64,30 +64,20 @@ void	hex_prec(t_env *e, double d, char **frac, char type)
 	}
 }
 
-void	delete_a_zero(char *frac)
-{
-	int		i;
-
-	i = ft_strlen(frac);
-	while (--i >= 0 && frac[i] == '0')
-		frac[i] = '\0';
-}
-
 void	ftoa_prec_a(t_env *e, double d, char type)
 {
 	char	*frac;
 	char	*ep;
 	char	*tmp;
 
-	hex_prec(e, d, &frac, type);
-	delete_a_zero(frac);
+	d == 0 ? frac = ft_strdup("0") : hex_prec(e, d, &frac, type);
+	d == 0 ? 0 : delete_zero(frac);
 	get_a_expo(d, type, &ep);
 	if (frac[0] == '\0')
-		e->out = (type == 'a' ? ft_strjoin("0x1", ep) : ft_strjoin("0X1", ep));
+		e->out = (d == 0 ? ft_strjoin("0", ep) : ft_strjoin("1", ep));
 	else
 	{
-		tmp = (type == 'a' ?
-		ft_strjoin("0x1.", frac) : ft_strjoin("0X1.", frac));
+		tmp = (d == 0 ? ft_strjoin("0", frac) : ft_strjoin("1.", frac));
 		e->out = ft_strjoin(tmp, ep);
 		free(tmp);
 	}
@@ -95,31 +85,40 @@ void	ftoa_prec_a(t_env *e, double d, char type)
 	free(ep);
 	if (d < 0)
 	{
-		tmp = ft_strjoin("-", e->out);
-		free(e->out);
-		e->out = tmp;
+		e->flag.plus = 0;
+		e->flag.sp = 0;
+		e->flag.width--;
 	}
+}
+
+void	print_prec_a_else(t_env *e, double d, char type)
+{
+	e->flag.width -= 2;
+	print_prec_width(e);
+	d < 0 ? e->ret += write(1, "-", 1) : 0;
+	print_base_pre(e, type, 1);
+	e->ret += write(e->fd, e->out, ft_strlen(e->out));
 }
 
 void	print_prec_a(t_env *e, double d, char type)
 {
 	ftoa_prec_a(e, d, type);
-	if (e->flag.minus)
+	if (e->flag.zero)
 	{
-		if (d > 0 && (e->flag.plus || e->flag.sp))
-			e->ret += (e->flag.plus == 1 ?
-			write(e->fd, "+", 1) : write(e->fd, " ", 1));
+		d < 0 ? e->ret += write(1, "-", 1) : 0;
+		print_base_pre(e, type, 1);
+		print_prec_width(e);
+		e->ret += write(e->fd, e->out, ft_strlen(e->out));
+	}
+	else if (e->flag.minus)
+	{
+		d < 0 ? e->ret += write(1, "-", 1) : 0;
+		print_base_pre(e, type, 1);
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
 		print_prec_width(e);
 	}
 	else
-	{
-		print_prec_width(e);
-		if (d > 0 && (e->flag.plus || e->flag.sp))
-			e->ret += (e->flag.plus == 1 ?
-			write(e->fd, "+", 1) : write(e->fd, " ", 1));
-		e->ret += write(e->fd, e->out, ft_strlen(e->out));
-	}
+		print_prec_a_else(e, d, type);
 	free(e->out);
 	e->i++;
 }
