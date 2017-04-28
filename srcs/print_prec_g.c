@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 02:41:43 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 02:51:05 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	ftoa_prec_fg(t_env *e, long double d, int end)
 	int		prec;
 
 	tmp = ft_ltoa((long)d);
+	end -= ft_strlen(tmp) - 1;
 	d == 0 ? e->flag.prec-- : 0;
-	e->flag.prec >= 0 ? end-- : 0;
 	d == 0 ? end-- : 0;
 	prec = ft_strlen(tmp);
 	num = get_prec_num_f(d, end);
@@ -38,7 +38,7 @@ void	ftoa_prec_fg(t_env *e, long double d, int end)
 	if ((end == prec || d == (long)d) && e->flag.hash == 0)
 		e->out = ft_strdup(tmp);
 	else
-		e->out = ft_str_prec(nb, prec, prec + end, e->flag.hash);
+		e->out = ft_str_prec(nb, prec, end, 0);
 	if (!e->flag.hash && d - (long)d != 0)
 		delete_zero(e->out);
 	free(tmp);
