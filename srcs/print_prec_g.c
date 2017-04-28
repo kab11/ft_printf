@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 17:42:48 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 01:08:42 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,17 @@ void	ftoa_prec_fg(t_env *e, long double d, int end)
 	int		prec;
 
 	tmp = ft_ltoa((long)d);
+	d == 0 ? e->flag.prec-- : 0;
+	e->flag.prec >= 0 ? end-- : 0;
+	d == 0 ? end-- : 0;
 	prec = ft_strlen(tmp);
 	num = get_prec_num_f(d, end);
-	nb = ft_ftoa(num);
-	if (end == prec)
+	nb = (num == 0 ? ft_strdup("0000000") : ft_ftoa(num));
+	if ((end == prec || d == (long)d) && e->flag.hash == 0)
 		e->out = ft_strdup(tmp);
 	else
 		e->out = ft_str_prec(nb, prec, prec + end, e->flag.hash);
-	if (!e->flag.hash)
+	if (!e->flag.hash && d != 0)
 		delete_zero(&e->out);
 	free(tmp);
 	free(nb);
@@ -53,6 +56,7 @@ void	ftoa_prec_eg(t_env *e, long double d, char type, int prec)
 	char	*expo;
 	long	num;
 
+	type -= 2;
 	prec = (prec == 1 ? 0 : prec);
 	num = get_prec_num_e(d, prec);
 	nb = ft_ftoa(num);
@@ -73,7 +77,8 @@ void	check_form(t_env *e, long double d, char type)
 
 	neg = (d < 0 ? -1 : 1);
 	d *= neg;
-	if ((d + 0.5 > 1000000 || d < 0.0001) && e->flag.prec < 0)
+	if ((d + 0.5 > 1000000 || d < 0.0001) && e->flag.prec < 0 &&
+		d != 0)
 		return (ftoa_prec_eg(e, d * neg, type - 2, 5));
 	else if (e->flag.prec < 0)
 		return (ftoa_prec_fg(e, d * neg, 6));

@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/18 00:50:09 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 17:43:04 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 00:31:51 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	print_prec_width(t_env *e)
 	if (e->flag.prec >= 0)
 	{
 		while (e->flag.width - ++i > len)
-			e->ret += write(e->fd, " ", 1);
+			e->ret += e->flag.zero ?
+			write(e->fd, "0", 1) : write(e->fd, " ", 1);
 		i = -1;
 		while ((int)ft_strlen(e->out) < len - ++i)
 			e->ret += write(e->fd, "0", 1);

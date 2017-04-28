@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 17:41:18 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 00:43:02 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ void	ftoa_prec_e(t_env *e, long double d, char type)
 	int		prec;
 
 	prec = (e->flag.prec >= 0 ? e->flag.prec : 6);
-	num = get_prec_num_e(d, prec);
-	nb = ft_ftoa(num);
-	get_exponent(d, type, &expo);
+	num = (d == 0 ? 0 : get_prec_num_e(d, prec));
+	nb = (d == 0 ? ft_strdup("0000000") : ft_ftoa(num));
+	d == 0 ? expo = ft_strjoin(&type, "+00") : get_exponent(d, type, &expo);
 	tmp = (d < 0 ? ft_str_prec(nb, 2, prec, e->flag.hash)
 	: ft_str_prec(nb, 1, prec, e->flag.hash));
 	e->out = ft_strjoin(tmp, expo);

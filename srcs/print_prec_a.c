@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 18:57:18 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 23:26:46 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 01:06:34 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,15 @@ void	get_a_expo(double d, char type, char **expo)
 
 	i = 0;
 	pre[2] = '\0';
-	pre[1] = (d < 0 ? '-' : '+');
 	d < 0 ? d *= -1 : 0;
+	pre[1] = (d > 0 ? '+' : '-');
 	pre[0] = type + 15;
-	while (d >= 2)
+	while (d >= 2 || d < 1)
 	{
-		d /= 2;
+		if (d < 1)
+			d *= 2;
+		else
+			d /= 2;
 		i++;
 	}
 	tmp = ft_itoa(i);
@@ -63,7 +66,6 @@ void	hex_prec(t_env *e, double d, char **frac, char type)
 
 void	delete_a_zero(char *frac)
 {
-	char	*tmp;
 	int		i;
 
 	i = ft_strlen(frac);
@@ -91,6 +93,12 @@ void	ftoa_prec_a(t_env *e, double d, char type)
 	}
 	free(frac);
 	free(ep);
+	if (d < 0)
+	{
+		tmp = ft_strjoin("-", e->out);
+		free(e->out);
+		e->out = tmp;
+	}
 }
 
 void	print_prec_a(t_env *e, double d, char type)
