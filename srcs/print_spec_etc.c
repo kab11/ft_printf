@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 21:37:17 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 18:15:19 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 19:38:27 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	spec_wchar(t_env *e, char type)
 	{
 		init_wstr_arg(e, &ws);
 		if (ws == NULL)
-			return (print_null(e));
+			return (print_null_str(e));
 		print_wstr(e, ws);
 	}
 	else if (type == 'c' || type == 'C')
