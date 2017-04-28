@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:25:42 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 03:18:45 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 03:21:03 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	get_spec(const char *restrict fmt, t_env *e)
 	else if (((fmt[e->i] == 'c' || fmt[e->i] == 's') && e->mod == l) ||
 			fmt[e->i] == 'C' || fmt[e->i] == 'S')
 		spec_wchar(e, fmt[e->i]);
+	else if (e->mod == L)
+		exit(-1);
 	else if ((fmt[e->i] >= 'e' && fmt[e->i] <= 'g') || fmt[e->i] == 'a' ||
 			(fmt[e->i] >= 'E' && fmt[e->i] <= 'G') || fmt[e->i] == 'A')
 		spec_precision(e, fmt[e->i]);
