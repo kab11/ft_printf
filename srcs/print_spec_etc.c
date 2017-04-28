@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 21:37:17 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 19:37:27 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 22:28:36 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	spec_return(t_env *e)
 	}
 	tmp = va_arg(e->ap[0], int *);
 	*tmp = e->ret;
+	e->i++;
 }
 
 void	spec_percent(t_env *e)

@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 19:26:20 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 23:27:04 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_char_width(t_env *e)
 {
-	while (e->flag.width-- > 1) 
+	while (e->flag.width-- > 1)
 		e->ret += (e->flag.zero == 1 ?
 		write(e->fd, "0", 1) : write(e->fd, " ", 1));
 }

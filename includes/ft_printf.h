@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 14:29:51 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 20:04:52 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 22:59:57 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ char			*ft_str_prec(char *s1, int dot, int end, int hash);
 void			print_prec_a(t_env *e, double d, char type);
 void			ftoa_prec_a(t_env *e, double d, char type);
 void			hex_prec(t_env *e, double d, char **frac, char type);
+void			delete_a_zero(char *frac);
 void			get_a_expo(double d, char type, char **expo);
 
 /*

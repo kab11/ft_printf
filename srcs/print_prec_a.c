@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 18:57:18 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 21:16:00 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 23:26:46 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,27 +57,40 @@ void	hex_prec(t_env *e, double d, char **frac, char type)
 		cmp >>= 1;
 		cnt += (num & cmp) == 0 ? 0 : 1;
 		cmp >>= 1;
-		frac[0][i] = (cnt < 10 ? cnt + 48 : cnt + type - 25);
+		frac[0][i] = (cnt < 10 ? cnt + 48 : cnt + type - 10);
 	}
+}
+
+void	delete_a_zero(char *frac)
+{
+	char	*tmp;
+	int		i;
+
+	i = ft_strlen(frac);
+	while (--i >= 0 && frac[i] == '0')
+		frac[i] = '\0';
 }
 
 void	ftoa_prec_a(t_env *e, double d, char type)
 {
-	char	*x;
 	char	*frac;
-	char	*expo;
+	char	*ep;
 	char	*tmp;
 
-	x = (type == 'a' ? ft_strdup("0x1.") : ft_strdup("0X1."));
 	hex_prec(e, d, &frac, type);
-	get_a_expo(d, type, &expo);
-	tmp = ft_strjoin(x, frac);
-	free(x);
+	delete_a_zero(frac);
+	get_a_expo(d, type, &ep);
+	if (frac[0] == '\0')
+		e->out = (type == 'a' ? ft_strjoin("0x1", ep) : ft_strjoin("0X1", ep));
+	else
+	{
+		tmp = (type == 'a' ?
+		ft_strjoin("0x1.", frac) : ft_strjoin("0X1.", frac));
+		e->out = ft_strjoin(tmp, ep);
+		free(tmp);
+	}
 	free(frac);
-	x = ft_strjoin(tmp, expo);
-	free(tmp);
-	free(expo);
-	e->out = x;
+	free(ep);
 }
 
 void	print_prec_a(t_env *e, double d, char type)
