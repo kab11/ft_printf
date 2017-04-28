@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 18:57:18 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 17:41:14 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 21:16:00 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,53 +15,50 @@
 void	get_a_expo(double d, char type, char **expo)
 {
 	char	*tmp;
-	long	num;
-	long	cmp;
-	int		cnt;
+	char	pre[3];
 	int		i;
 
-	cmp = 0x0800000000000000;
-	i = -1;
-	num = (long)d;
-	cnt = 0;
-	while (i < 11)
+	i = 0;
+	pre[2] = '\0';
+	pre[1] = (d < 0 ? '-' : '+');
+	d < 0 ? d *= -1 : 0;
+	pre[0] = type + 15;
+	while (d >= 2)
 	{
-		cnt *= 2;
-		cnt += (num & cmp) == 0 ? 1 : 0;
-		cmp >>= 1;
+		d /= 2;
+		i++;
 	}
-	cnt -= 1023;
-	tmp = ft_itoa(cnt);
-	*expo = ft_strjoin(&type, tmp);
+	tmp = ft_itoa(i);
+	*expo = ft_strjoin(pre, tmp);
 	free(tmp);
 }
 
-char	*hex_prec(t_env *e, double d, char type)
+void	hex_prec(t_env *e, double d, char **frac, char type)
 {
-	char	*frac;
-	long	num;
-	long	cmp;
-	int		cnt;
-	int		i;
+	unsigned long	cmp;
+	long			num;
+	int				len;
+	int				cnt;
+	int				i;
 
-	frac = ft_strnew(e->flag.prec >= 0 ? 13 : e->flag.prec);
+	len = (e->flag.prec < 0 ? 13 : e->flag.prec);
+	*frac = ft_strnew(len);
 	cmp = 0x0008000000000000;
 	i = -1;
-	num = (long)d;
-	while (frac[++i] != '\0')
+	num = *(long*)&d;
+	while (++i < len)
 	{
 		cnt = 0;
-		cnt += (num & cmp) == 0 ? 8 : 1;
+		cnt += (num & cmp) == 0 ? 0 : 8;
 		cmp >>= 1;
-		cnt += (num & cmp) == 0 ? 4 : 1;
+		cnt += (num & cmp) == 0 ? 0 : 4;
 		cmp >>= 1;
-		cnt += (num & cmp) == 0 ? 2 : 1;
+		cnt += (num & cmp) == 0 ? 0 : 2;
 		cmp >>= 1;
-		cnt += (num & cmp) == 0 ? 1 : 1;
+		cnt += (num & cmp) == 0 ? 0 : 1;
 		cmp >>= 1;
-		frac[i] = (cnt < 10 ? cnt + 48 : cnt + type - 25);
+		frac[0][i] = (cnt < 10 ? cnt + 48 : cnt + type - 25);
 	}
-	return (frac);
 }
 
 void	ftoa_prec_a(t_env *e, double d, char type)
@@ -71,8 +68,8 @@ void	ftoa_prec_a(t_env *e, double d, char type)
 	char	*expo;
 	char	*tmp;
 
-	x = (type == 'p' ? ft_strdup("0x1.") : ft_strdup("0X1."));
-	frac = hex_prec(e, d, type);
+	x = (type == 'a' ? ft_strdup("0x1.") : ft_strdup("0X1."));
+	hex_prec(e, d, &frac, type);
 	get_a_expo(d, type, &expo);
 	tmp = ft_strjoin(x, frac);
 	free(x);
@@ -103,4 +100,5 @@ void	print_prec_a(t_env *e, double d, char type)
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
 	}
 	free(e->out);
+	e->i++;
 }
