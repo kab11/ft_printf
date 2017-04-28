@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 03:55:09 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 04:02:42 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	get_exponent(long double d, char type, char **expo)
 		ex--;
 	}
 	if (ex > 9 || ex < -9)
-		tmp[0] = ft_strjoin(type == 'e' ? "e" : "E", ex < 0 ? "-" : "+");
+		tmp[0] = ft_strjoin(type == 'e' ? "e\0" : "E\0", ex < 0 ? "-\0" : "+\0");
 	else
-		tmp[0] = ft_strjoin(type == 'e' ? "e" : "E", ex < 0 ? "-0" : "+0");
+		tmp[0] = ft_strjoin(type == 'e' ? "e\0" : "E\0", ex < 0 ? "-0\0" : "+0\0");
 	tmp[1] = ft_itoa(ex < 0 ? ex * -1 : ex);
 	*expo = ft_strjoin(tmp[0], tmp[1]);
 	free(tmp[0]);
@@ -46,12 +46,10 @@ long	get_prec_num_e(long double d, int prec)
 
 	neg = (d < 0 ? -1 : 1);
 	d *= neg;
-	if (d < 1)
-		while (d < 1)
-			d *= 10;
-	else if (d >= 8)
-		while (d >= 10)
-			d /= 10;
+	while (d < 1)
+		d *= 10;
+	while (d >= 10)
+		d /= 10;
 	i = -1;
 	while (++i < prec)
 		d *= 10;
