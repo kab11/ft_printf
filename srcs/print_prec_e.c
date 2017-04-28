@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 04:02:42 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 04:05:49 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	get_exponent(long double d, char type, char **expo)
 {
-	char	*tmp[2];
+	char	*tmp1;
+	char	*tmp2;
 	int		ex;
 
 	d < 0 ? d *= -1 : 0;
@@ -30,13 +31,13 @@ void	get_exponent(long double d, char type, char **expo)
 		ex--;
 	}
 	if (ex > 9 || ex < -9)
-		tmp[0] = ft_strjoin(type == 'e' ? "e\0" : "E\0", ex < 0 ? "-\0" : "+\0");
+		tmp1 = ft_strjoin(type == 'e' ? "e\0" : "E\0", ex < 0 ? "-\0" : "+\0");
 	else
-		tmp[0] = ft_strjoin(type == 'e' ? "e\0" : "E\0", ex < 0 ? "-0\0" : "+0\0");
-	tmp[1] = ft_itoa(ex < 0 ? ex * -1 : ex);
-	*expo = ft_strjoin(tmp[0], tmp[1]);
-	free(tmp[0]);
-	free(tmp[1]);
+		tmp1 = ft_strjoin(type == 'e' ? "e\0" : "E\0", ex < 0 ? "-0\0" : "+0\0");
+	tmp2 = ft_itoa(ex < 0 ? ex * -1 : ex);
+	*expo = ft_strjoin(tmp1, tmp2);
+	free(tmp1);
+	free(tmp2);
 }
 
 long	get_prec_num_e(long double d, int prec)
