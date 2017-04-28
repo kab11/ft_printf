@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 14:29:51 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 17:39:57 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 18:32:25 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,14 @@ void			print_char_width(t_env *e);
 **				print_wchar
 */
 
-void			print_wchar(t_env *e, wchar_t *wc);
-void			print_wchar_minus(t_env *e, wchar_t *wc, int len);
-int				get_wchar_len(wchar_t *wc);
-void			put_wc(t_env *e, wchar_t c);
-void			put_wchar(t_env *e, char c);
+void			print_wchar(t_env *e, wchar_t wc);
+void			print_wchar_minus(t_env *e, wchar_t wc);
+int				get_wchar_len(wchar_t wc);
+void			print_wstr(t_env *e, wchar_t *wc);
+void			print_wstr_minus(t_env *e, wchar_t *wc, int len);
+int				get_wstr_len(wchar_t *wc);
+void			put_wstr(t_env *e, wchar_t c);
+void			put_wstr_c(t_env *e, char c);
 
 /*
 ** 				print_prec_tools

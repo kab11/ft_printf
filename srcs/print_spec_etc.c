@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 21:37:17 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 15:29:57 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 18:15:19 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	spec_ptraddr(t_env *e, char type)
 void	spec_wchar(t_env *e, char type)
 {
 	wchar_t *ws;
-	wchar_t wc[2];
+	wchar_t wc;
 
 	e->flag.minus ? e->flag.zero = 0 : 0;
 	if (type == 's' || type == 'S')
@@ -37,14 +37,13 @@ void	spec_wchar(t_env *e, char type)
 		init_wstr_arg(e, &ws);
 		if (ws == NULL)
 			return (print_null(e));
-		print_wchar(e, ws);
+		print_wstr(e, ws);
 	}
 	else if (type == 'c' || type == 'C')
 	{
-		init_wchar_arg(e, &wc[0]);
-		if (wc[0] == 0)
+		init_wchar_arg(e, &wc);
+		if (wc == 0)
 			return (print_null_char(e));
-		wc[1] = 0;
 		print_wchar(e, wc);
 	}
 }

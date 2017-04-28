@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 17:41:56 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 18:33:14 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,67 +42,23 @@ void	put_wc(t_env *e, wchar_t c)
 	e->ret++;
 }
 
-int		get_wchar_len(wchar_t *wc)
+void	print_wchar_minus(t_env *e, wchar_t wc)
 {
-	int i;
-	int len;
-
-	i = -1;
-	len = 0;
-	while (wc[++i] != 0)
-	{
-		if (wc[i] <= 0x7F)
-			len++;
-		else if (wc[i] <= 0x7FF)
-			len ++;
-		else if (wc[i] <= 0xFFFF)
-			len ++;
-		else if (wc[i] <= 0x10FFFF)
-			len ++;
-	}
-	return (len);
+	put_wc(e, wc);
+	while (e->flag.width-- > 1)
+		e->ret += write(e->fd, " ", 1);
 }
 
-void	print_wchar_minus(t_env *e, wchar_t *wc, int len)
+void	print_wchar(t_env *e, wchar_t wc)
 {
-	int i;
-
-	i = -1;
-	if (e->flag.prec >= 0)
-	{
-		while (wc[++i] != 0 && i < e->flag.prec)
-			put_wc(e, wc[i]);
-	}
-	else
-	{
-		while (wc[++i] != 0)
-			put_wc(e, wc[i]);
-	}
-	while (e->flag.width-- > len)
-		e->ret += (e->flag.zero == 1 ?
-		write(e->fd, "0", 1) : write(e->fd, " ", 1));
-}
-
-void	print_wchar(t_env *e, wchar_t *wc)
-{
-	int i;
-	int len;
-
-	i = -1;
-	len = (e->flag.prec < 0 ? get_wchar_len(wc) : e->flag.prec);
 	if (e->flag.minus)
-		print_wchar_minus(e, wc, len);
+		print_wchar_minus(e, wc);
 	else
 	{
-		while (e->flag.width-- > len)
-			e->ret += (e->flag.zero == 1 ?
+		while (e->flag.width-- > 1)
+			e->ret += (e->flag.zero ?
 			write(e->fd, "0", 1) : write(e->fd, " ", 1));
-		if (e->flag.prec >= 0)
-			while (wc[++i] != 0 && i < e->flag.prec)
-				put_wc(e, wc[i]);
-		else
-			while (wc[++i] != 0)
-				put_wc(e, wc[i]);
+		put_wc(e, wc);
 	}
 	e->i++;
 }
