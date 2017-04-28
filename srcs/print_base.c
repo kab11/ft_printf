@@ -6,16 +6,15 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 17:24:50 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 18:51:49 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_base_pre(t_env *e, char type)
+void	print_base_pre(t_env *e, char type, long long val)
 {
-	if (e->flag.hash && e->out[0] != '\0' &&
-		e->out[ft_strlen(e->out) - 1] != '0')
+	if (e->flag.hash && e->out[0] != '\0' && val != 0)
 	{
 		e->ret += (type == 'o' || type == 'O') ? write(e->fd, "0", 1) : 0;
 		e->ret += (type == 'x') ? write(e->fd, "0x", 2) : 0;
@@ -77,25 +76,25 @@ void	check_base_prec(t_env *e, char type)
 	}
 }
 
-void	print_base(t_env *e, char type)
+void	print_base(t_env *e, char type, long long val)
 {
 	check_base_prec(e, type);
 	if (e->flag.zero)
 	{
-		print_base_pre(e, type);
+		print_base_pre(e, type, val);
 		print_base_width(e, type);
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
 	}
 	else if (e->flag.minus)
 	{
-		print_base_pre(e, type);
+		print_base_pre(e, type, val);
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
 		print_base_width(e, type);
 	}
 	else
 	{
 		print_base_width(e, type);
-		print_base_pre(e, type);
+		print_base_pre(e, type, val);
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
 	}
 	e->i++;

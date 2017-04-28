@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 04:03:47 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 17:16:36 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 18:52:17 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	spec_base(t_env *e, char type)
 	if (type >= 'b' && type <= 'x')
 		ft_lowcase(e->out);
 	e->flag.minus == 1 ? e->flag.zero = 0 : 0;
-	print_base(e, type);
+	print_base(e, type, (long long)val);
 }
 
 void	spec_precision(t_env *e, char type)

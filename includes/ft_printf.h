@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 14:29:51 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 18:32:25 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 18:52:03 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,9 +132,9 @@ void			check_digit_prec(t_env *e);
 **				print_base
 */
 
-void			print_base(t_env *e, char type);
+void			print_base(t_env *e, char type, long long val);
 void			print_base_width(t_env *e, char type);
-void			print_base_pre(t_env *e, char type);
+void			print_base_pre(t_env *e, char type, long long val);
 void			check_base_prec(t_env *e, char type);
 
 /*
