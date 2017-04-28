@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 03:26:30 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 03:55:09 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ void	get_exponent(long double d, char type, char **expo)
 		tmp[0] = ft_strjoin(type == 'e' ? "e" : "E", ex < 0 ? "-" : "+");
 	else
 		tmp[0] = ft_strjoin(type == 'e' ? "e" : "E", ex < 0 ? "-0" : "+0");
-	tmp[1] = ft_itoa(ex);
+	tmp[1] = ft_itoa(ex < 0 ? ex * -1 : ex);
 	*expo = ft_strjoin(tmp[0], tmp[1]);
+	free(tmp[0]);
+	free(tmp[1]);
 }
 
 long	get_prec_num_e(long double d, int prec)
@@ -44,8 +46,12 @@ long	get_prec_num_e(long double d, int prec)
 
 	neg = (d < 0 ? -1 : 1);
 	d *= neg;
-	while (d < 10)
-		d *= 10;
+	if (d < 1)
+		while (d < 1)
+			d *= 10;
+	else if (d >= 8)
+		while (d >= 10)
+			d /= 10;
 	i = -1;
 	while (++i < prec)
 		d *= 10;
@@ -65,8 +71,8 @@ void	ftoa_prec_e(t_env *e, long double d, char type)
 	prec = (e->flag.prec >= 0 ? e->flag.prec : 6);
 	num = (d == 0 ? 0 : get_prec_num_e(d, prec));
 	nb = (d == 0 ? ft_strdup("0000000") : ft_ftoa(num));
-	d == 0 ? expo = ft_strjoin(&type, "+00") : get_exponent(d, type, &expo);
-	tmp = (d < 0 ? ft_str_prec(nb, 2, prec, e->flag.hash)
+	d == 0 ? expo = ft_strjoin(&type, "+00") :get_exponent(d, type, &expo);
+	tmp = (d < 0 ? ft_str_prec(nb, 2, prec + 1, e->flag.hash)
 	: ft_str_prec(nb, 1, prec, e->flag.hash));
 	e->out = ft_strjoin(tmp, expo);
 	free(nb);
