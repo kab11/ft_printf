@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 21:37:17 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 18:15:19 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 19:03:11 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	spec_ptraddr(t_env *e, char type)
 void	spec_wchar(t_env *e, char type)
 {
 	wchar_t *ws;
-	wchar_t wc;
+	int		 wc;
 
 	e->flag.minus ? e->flag.zero = 0 : 0;
 	if (type == 's' || type == 'S')

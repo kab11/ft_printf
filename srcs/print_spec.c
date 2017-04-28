@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 04:03:47 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 18:52:17 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 19:03:55 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	spec_base(t_env *e, char type)
 	long long			tmp;
 	unsigned long long	val;
 
+	val = 0;
 	init_int_arg(e, &tmp);
 	if (type == 'O')
 		val = (unsigned long long)tmp;
