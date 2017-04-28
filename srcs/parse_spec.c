@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:25:42 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 22:22:55 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 22:24:47 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	get_spec_more(const char *restrict fmt, t_env *e)
 		spec_base(e, fmt[e->i]);
 	else if (fmt[e->i] == 'n')
 		spec_return(e);
-//	else if (fmt[e->i] == 'p' || fmt[e->i] == 'P')
-//		spec_ptraddr(e, fmt[e->i]);
+	else if (fmt[e->i] == 'p' || fmt[e->i] == 'P')
+		spec_ptraddr(e, fmt[e->i]);
 //	else if (fmt[e->i] == 'r')
 //		spec_non_printable(e);
 //	else if (fmt[e->i] == 'w')
