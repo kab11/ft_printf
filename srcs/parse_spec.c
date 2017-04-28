@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:25:42 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 03:28:27 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 03:31:08 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void	get_spec_more(const char *restrict fmt, t_env *e)
 		print_invalid_spec(e, fmt[e->i]);
 }
 
-void	asdf(t_env *e, char *fmt)
+void	asdf(t_env *e, const char *restrict fmt)
 {
 	int i;
 
-	i = 1;
-	while (fmt[e->i - --i] != '%')
+	i = -1;
+	while (fmt[e->i - ++i] != '%')
 		write(1, &fmt[e->i - i], 1);
 	e->i++;
 }
