@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 17:43:09 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 16:16:19 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	print_ptraddr_width(t_env *e)
 void	print_ptraddr(t_env *e, char type)
 {
 	if (e->flag.zero && e->flag.prec == -1)
-		e->flag.prec = e->flag.width;
+		e->flag.prec = e->flag.width - 2;
 	ptraddr_prec(e);
 	if (type == 'p')
 		ft_lowcase(e->out);

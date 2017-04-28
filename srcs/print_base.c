@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 17:40:09 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 17:24:50 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	print_base_pre(t_env *e, char type)
 {
-	if (e->flag.hash && (e->out[0] != '\0' && e->out[0] != '0'))
+	if (e->flag.hash && e->out[0] != '\0' &&
+		e->out[ft_strlen(e->out) - 1] != '0')
 	{
 		e->ret += (type == 'o' || type == 'O') ? write(e->fd, "0", 1) : 0;
 		e->ret += (type == 'x') ? write(e->fd, "0x", 2) : 0;
 		e->ret += (type == 'X') ? write(e->fd, "0X", 2) : 0;
 	}
-	else if ((type == 'o' || type == 'O') && e->out[0] == '\0' &&
-		e->flag.hash)
+	else if ((type == 'o' || type == 'O') && e->flag.hash && e->flag.prec >= 0)
 		e->ret += write(e->fd, "0", 1);
 }
 
@@ -52,7 +52,7 @@ void	print_base_width(t_env *e, char type)
 	}
 }
 
-void	check_base_prec(t_env *e)
+void	check_base_prec(t_env *e, char type)
 {
 	char	*tmp;
 	char	*res;
@@ -64,6 +64,8 @@ void	check_base_prec(t_env *e)
 		e->out[0] = '\0';
 	else if (e->flag.prec > len)
 	{
+		if ((type == 'o' || type == 'O') && e->flag.hash)
+			e->flag.prec--;
 		i = e->flag.prec - len;
 		tmp = ft_strnew(i);
 		while (--i >= 0)
@@ -77,7 +79,7 @@ void	check_base_prec(t_env *e)
 
 void	print_base(t_env *e, char type)
 {
-	check_base_prec(e);
+	check_base_prec(e, type);
 	if (e->flag.zero)
 	{
 		print_base_pre(e, type);

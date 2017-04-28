@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 04:03:47 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 17:21:24 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 17:16:36 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	spec_base(t_env *e, char type)
 	long long			tmp;
 	unsigned long long	val;
 
-	if (e->flag.plus)
-		exit(-1);
 	init_int_arg(e, &tmp);
 	if (type == 'O')
 		val = (unsigned long long)tmp;
@@ -99,25 +97,24 @@ void	spec_char(t_env *e, char type)
 void	spec_unsint(t_env *e, char type)
 {
 	long long			tmp;
-	unsigned long long	ui;
 
 	e->flag.sp = 0;
 	e->flag.plus = 0;
 	init_int_arg(e, &tmp);
-	ui = 0;
-	if (type == 'D' || type == 'U')
-		ui = (unsigned long long)tmp;
+	if (tmp == LLONG_MIN || tmp == LONG_MIN)
+		e->out = ft_strdup("-9223372036854775808");
+	else if (type == 'D' || type == 'U')
+		e->out = ft_uns_lltoa((unsigned long long)tmp);
 	else if (e->mod == h)
-		ui = (unsigned short)tmp;
+		e->out = ft_uns_lltoa((unsigned short)tmp);
 	else if (e->mod == hh)
-		ui = (unsigned char)tmp;
+		e->out = ft_uns_lltoa((unsigned char)tmp);
 	else if (e->mod == none && type != 'U')
-		ui = (unsigned int)tmp;
+		e->out = ft_uns_lltoa((unsigned int)tmp);
 	else if (e->mod == z || e->mod == l || e->mod == t || e->mod == j)
-		ui = (unsigned long)tmp;
+		e->out = ft_uns_lltoa((unsigned long)tmp);
 	else if (e->mod == ll)
-		ui = (unsigned long long)tmp;
-	e->out = ft_uns_lltoa(ui);
+		e->out = ft_uns_lltoa((unsigned long long)tmp);
 	print_digit(e);
 }
 
@@ -130,7 +127,9 @@ void	spec_int(t_env *e)
 	i = (long long)tmp;
 	e->flag.minus == 1 ? e->flag.zero = 0 : 0;
 	e->flag.prec >= 0 ? e->flag.zero = 0 : 0;
-	if (e->mod == hh)
+	if (tmp == LLONG_MIN || tmp == LONG_MIN)
+		e->out = ft_strdup("-9223372036854775808");
+	else if (e->mod == hh)
 		e->out = ft_itoa((char)i);
 	else if (e->mod == h)
 		e->out = ft_itoa((short)i);

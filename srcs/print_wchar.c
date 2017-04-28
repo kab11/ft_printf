@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 18:11:20 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 17:41:56 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	put_wchar(t_env *e, char c)
 {
-	e->ret += write(e->fd, &c, 1);
+	write(e->fd, &c, 1);
 }
 
 void	put_wc(t_env *e, wchar_t c)
@@ -39,6 +39,7 @@ void	put_wc(t_env *e, wchar_t c)
 		put_wchar(e, ((c >> 6) & 0x3F) + 0x80);
 		put_wchar(e, (c & 0x3F) + 0x80);
 	}
+	e->ret++;
 }
 
 int		get_wchar_len(wchar_t *wc)
@@ -53,11 +54,11 @@ int		get_wchar_len(wchar_t *wc)
 		if (wc[i] <= 0x7F)
 			len++;
 		else if (wc[i] <= 0x7FF)
-			len += 2;
+			len ++;
 		else if (wc[i] <= 0xFFFF)
-			len += 3;
+			len ++;
 		else if (wc[i] <= 0x10FFFF)
-			len += 4;
+			len ++;
 	}
 	return (len);
 }
@@ -88,7 +89,7 @@ void	print_wchar(t_env *e, wchar_t *wc)
 	int len;
 
 	i = -1;
-	len = get_wchar_len(wc);
+	len = (e->flag.prec < 0 ? get_wchar_len(wc) : e->flag.prec);
 	if (e->flag.minus)
 		print_wchar_minus(e, wc, len);
 	else
@@ -96,7 +97,7 @@ void	print_wchar(t_env *e, wchar_t *wc)
 		while (e->flag.width-- > len)
 			e->ret += (e->flag.zero == 1 ?
 			write(e->fd, "0", 1) : write(e->fd, " ", 1));
-		if (e->flag.prec != -1)
+		if (e->flag.prec >= 0)
 			while (wc[++i] != 0 && i < e->flag.prec)
 				put_wc(e, wc[i]);
 		else

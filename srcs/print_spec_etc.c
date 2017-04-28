@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 21:37:17 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 01:08:36 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 15:29:57 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ void	spec_ptraddr(t_env *e, char type)
 
 	init_int_arg(e, &tmp);
 	addr = (unsigned long long)tmp;
-	e->out = ft_lltoa_base(addr, 16);
+	if (e->flag.prec == 0)
+		e->out = ft_strdup("\0");
+	else
+		e->out = ft_lltoa_base(addr, 16);
 	print_ptraddr(e, type);
 }
 
