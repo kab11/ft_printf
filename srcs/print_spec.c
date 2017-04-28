@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 04:03:47 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 19:03:55 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 19:27:37 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,15 @@ void	spec_char(t_env *e, char type)
 	{
 		init_str_arg(e, &stmp);
 		if (stmp == NULL)
-			return (print_null(e));
+			return (print_null_str(e));
 		e->out = ft_strdup((char*)stmp);
+		print_str(e);
 	}
 	else if (type == 'c')
 	{
 		init_char_arg(e, &ctmp);
-		e->out = ft_strnew(1);
-		e->out[0] = ctmp;
-		if (e->out[0] == '\0')
-		{
-			e->flag.width--;
-			e->ret++;
-		}
+		print_char(e, ctmp);
 	}
-	print_char(e);
 }
 
 void	spec_unsint(t_env *e, char type)

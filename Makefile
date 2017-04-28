@@ -6,7 +6,7 @@
 #    By: mikim <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/27 09:44:56 by mikim             #+#    #+#              #
-#    Updated: 2017/04/27 18:46:41 by mikim            ###   ########.fr        #
+#    Updated: 2017/04/27 19:26:49 by mikim            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC = ft_printf.c\
 	  print_spec.c\
 	  print_spec_etc.c\
 	  print_char.c\
+	  print_str.c\
 	  print_wchar.c\
 	  print_wstr.c\
 	  print_digit.c\

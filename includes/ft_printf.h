@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 14:29:51 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 19:02:38 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/27 19:27:28 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void			init_str_arg(t_env *e, char **tmp);
 void			init_int_arg(t_env *e, long long *tmp);
 void			init_prec_arg(t_env *e, double *tmp);
 void			init_long_double(t_env *e, long double *tmp);
-void			init_wchar_arg(t_env *e, int *tmp);
+void			init_wchar_arg(t_env *e, wchar_t *tmp);
 void			init_wstr_arg(t_env *e, wchar_t **tmp);
 
 /*
@@ -141,17 +141,19 @@ void			check_base_prec(t_env *e, char type);
 **				print_char
 */
 
-void			print_char(t_env *e);
-void			print_null(t_env *e);
+void			print_char(t_env *e, char c);
 void			print_null_char(t_env *e);
 void			print_char_width(t_env *e);
+void			print_str(t_env *e);
+void			print_null_str(t_env *e);
+void			print_str_width(t_env *e);
 
 /*
 **				print_wchar
 */
 
-void			print_wchar(t_env *e, int wc);
-void			print_wchar_minus(t_env *e, int wc);
+void			print_wchar(t_env *e, wchar_t wc);
+void			print_wchar_minus(t_env *e, wchar_t wc);
 void			print_wstr(t_env *e, wchar_t *wc);
 void			print_wstr_minus(t_env *e, wchar_t *wc, int len);
 int				get_wstr_len(wchar_t *wc);
