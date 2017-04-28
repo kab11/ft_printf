@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 03:14:00 by mikim            ###   ########.fr       */
+/*   Updated: 2017/04/28 03:15:14 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ftoa_prec_eg(t_env *e, long double d, char type, int prec)
 	nb = ft_ftoa(num);
 	get_exponent(d, type, &expo);
 	tmp = ft_str_prec(nb, 1 + (d < 0 ? 1 : 0),
-	prec + (d < 0 ? 1 : 0) - 1, e->flag.hash);
+	prec + (d < 0 ? 1 : 0), e->flag.hash);
 	if (!e->flag.hash)
 		delete_zero(tmp);
 	e->out = ft_strjoin(tmp, expo);
@@ -83,7 +83,7 @@ void	check_form(t_env *e, long double d, char type)
 		(e->flag.prec == 0 && d >= 10))
 	{
 		free(nb);
-		return (ftoa_prec_eg(e, d * neg, type - 2, e->flag.prec));
+		return (ftoa_prec_eg(e, d * neg, type - 2, e->flag.prec - 1));
 	}
 	free(nb);
 	ftoa_prec_fg(e, d * neg, e->flag.prec);
