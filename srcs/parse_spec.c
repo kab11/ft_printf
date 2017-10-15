@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:25:42 by mikim             #+#    #+#             */
-/*   Updated: 2017/10/14 23:02:56 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/15 00:00:27 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	get_spec(const char *restrict fmt, t_pf_env *e)
 		spec_percent(e);
 	else if ((fmt[e->i] == 'd' || fmt[e->i] == 'i') && e->mod != pf_z)
 		spec_int(e);
-	else if (ft_strchr(PF_UINT, fmt[e->i]) && e->mod == pf_z)
+	else if (fmt[e->i] == 'u' || fmt[e->i] == 'U' ||
+			(ft_strchr(PF_UINT, fmt[e->i]) && e->mod == pf_z))
 		spec_unsint(e, fmt[e->i]);
 	else if ((fmt[e->i] == 'c' || fmt[e->i] == 's') && e->mod != pf_l)
 		spec_char(e, fmt[e->i]);
