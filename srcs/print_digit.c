@@ -6,13 +6,13 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 07:33:11 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 17:40:55 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 22:00:21 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_digit_sign(t_env *e)
+void	print_digit_sign(t_pf_env *e)
 {
 	if (e->flag.plus || e->flag.sp)
 		e->ret += (e->flag.plus == 1 ?
@@ -21,7 +21,7 @@ void	print_digit_sign(t_env *e)
 		e->ret += write(e->fd, "-", 1);
 }
 
-void	print_digit_width(t_env *e)
+void	print_digit_width(t_pf_env *e)
 {
 	int i;
 	int len;
@@ -44,7 +44,7 @@ void	print_digit_width(t_env *e)
 			write(e->fd, "0", 1) : write(e->fd, " ", 1));
 }
 
-void	check_digit_sign(t_env *e)
+void	check_digit_sign(t_pf_env *e)
 {
 	char *tmp;
 
@@ -59,7 +59,7 @@ void	check_digit_sign(t_env *e)
 	}
 }
 
-void	check_digit_prec(t_env *e)
+void	check_digit_prec(t_pf_env *e)
 {
 	char	*tmp;
 	char	*res;
@@ -83,7 +83,7 @@ void	check_digit_prec(t_env *e)
 	}
 }
 
-void	print_digit(t_env *e)
+void	print_digit(t_pf_env *e)
 {
 	check_digit_prec(e);
 	if (e->flag.zero)
@@ -104,6 +104,6 @@ void	print_digit(t_env *e)
 		print_digit_sign(e);
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
 	}
-	e->i++;
+	++e->i;
 	free(e->out);
 }

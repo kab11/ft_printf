@@ -6,25 +6,24 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:25:42 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 03:33:18 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 23:02:56 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	spec_fd(t_env *e)
+void	spec_fd(t_pf_env *e)
 {
-	long long tmp;
+	long tmp;
 
 	init_int_arg(e, &tmp);
 	e->fd = (int)tmp;
-	e->i++;
+	++e->i;
 }
 
-void	get_spec_more(const char *restrict fmt, t_env *e)
+void	get_spec_more(const char *restrict fmt, t_pf_env *e)
 {
-	if (fmt[e->i] == 'o' || fmt[e->i] == 'b' || fmt[e->i] == 'x' ||
-			fmt[e->i] == 'O' || fmt[e->i] == 'B' || fmt[e->i] == 'X')
+	if (ft_strchr(PF_HEX, fmt[e->i]))
 		spec_base(e, fmt[e->i]);
 	else if (fmt[e->i] == 'n')
 		spec_return(e);
@@ -40,24 +39,22 @@ void	get_spec_more(const char *restrict fmt, t_env *e)
 		print_invalid_spec(e, fmt[e->i]);
 }
 
-void	get_spec(const char *restrict fmt, t_env *e)
+void	get_spec(const char *restrict fmt, t_pf_env *e)
 {
 	if (fmt[e->i] == '%')
 		spec_percent(e);
-	else if ((fmt[e->i] == 'd' || fmt[e->i] == 'i') && e->mod != z)
+	else if ((fmt[e->i] == 'd' || fmt[e->i] == 'i') && e->mod != pf_z)
 		spec_int(e);
-	else if (fmt[e->i] == 'u' || fmt[e->i] == 'U' || fmt[e->i] == 'D' ||
-			((fmt[e->i] == 'd' || fmt[e->i] == 'i') && e->mod == z))
+	else if (ft_strchr(PF_UINT, fmt[e->i]) && e->mod == pf_z)
 		spec_unsint(e, fmt[e->i]);
-	else if ((fmt[e->i] == 'c' || fmt[e->i] == 's') && e->mod != l)
+	else if ((fmt[e->i] == 'c' || fmt[e->i] == 's') && e->mod != pf_l)
 		spec_char(e, fmt[e->i]);
 	else if (fmt[e->i] == 'C' || fmt[e->i] == 'S')
 		spec_char(e, fmt[e->i] + 32);
-	else if (((fmt[e->i] == 'c' || fmt[e->i] == 's') && e->mod == l) ||
+	else if (((fmt[e->i] == 'c' || fmt[e->i] == 's') && e->mod == pf_l) ||
 			fmt[e->i] == 'C' || fmt[e->i] == 'S')
 		spec_wchar(e, fmt[e->i]);
-	else if ((fmt[e->i] >= 'e' && fmt[e->i] <= 'g') || fmt[e->i] == 'a' ||
-			(fmt[e->i] >= 'E' && fmt[e->i] <= 'G') || fmt[e->i] == 'A')
+	else if (ft_strchr(PF_PREC, fmt[e->i]))
 		spec_precision(e, fmt[e->i]);
 	else
 		get_spec_more(fmt, e);

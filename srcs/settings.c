@@ -6,13 +6,13 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 16:21:32 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 23:45:13 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 22:57:09 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	set_options(const char *restrict fmt, t_env *e)
+void	set_options(const char *restrict fmt, t_pf_env *e)
 {
 	if (!ft_strncmp(fmt + e->i, "{SET:BO}", 8))
 		e->ret += write(e->fd, "\x1B[1m", 4);
@@ -35,7 +35,7 @@ void	set_options(const char *restrict fmt, t_env *e)
 	e->i += 8;
 }
 
-void	set_bg_colo(const char *restrict fmt, t_env *e)
+void	set_bg_colo(const char *restrict fmt, t_pf_env *e)
 {
 	if (!ft_strncmp(fmt + e->i, "{BGC:BLK}", 9))
 		e->ret += write(e->fd, "\x1B[40m", 5);
@@ -58,7 +58,7 @@ void	set_bg_colo(const char *restrict fmt, t_env *e)
 	e->i += 9;
 }
 
-void	set_light_colo(const char *restrict fmt, t_env *e)
+void	set_light_colo(const char *restrict fmt, t_pf_env *e)
 {
 	if (!ft_strncmp(fmt + e->i, "{LT:BLK}", 8))
 		e->ret += write(e->fd, "\x1B[90m", 5);
@@ -81,7 +81,7 @@ void	set_light_colo(const char *restrict fmt, t_env *e)
 	e->i += 8;
 }
 
-void	set_colo(const char *restrict fmt, t_env *e)
+void	set_colo(const char *restrict fmt, t_pf_env *e)
 {
 	if (!ft_strncmp(fmt + e->i, "{BLK}", 5))
 		e->ret += write(e->fd, "\x1B[30m", 5);
@@ -104,7 +104,7 @@ void	set_colo(const char *restrict fmt, t_env *e)
 	e->i += 5;
 }
 
-void	check_settings(const char *restrict fmt, t_env *e)
+void	check_settings(const char *restrict fmt, t_pf_env *e)
 {
 	int tmp;
 

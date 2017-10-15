@@ -6,52 +6,35 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 21:55:03 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/22 22:47:46 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 23:42:16 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	ft_chklen(long n, int base, int *len)
+char	*ft_itoa_base(int n, int base)
 {
-	int i;
-
-	i = 0;
-	if (n < 0)
-		i++;
-	while (n >= 1 || n <= -1)
-	{
-		n /= base;
-		i++;
-	}
-	*len = i;
-}
-
-char		*ft_itoa_base(int val, int base)
-{
-	char	*res;
-	char	bs[17];
-	long	value;
+	char	*s;
+	long	nb;
 	int		len;
 
 	len = 1;
-	value = (long)val;
-	ft_strcpy(bs, "0123456789ABCDEF");
-	if (value == 0)
-		return (ft_strdup("0"));
-	ft_chklen(value, base, &len);
-	res = (char*)malloc(sizeof(char) * len + 1);
-	res[len--] = '\0';
-	if (value < 0)
+	nb = n < 0 ? -(long)n : n;
+	nb < 0 ? ++len : 0;
+	while (nb >= base)
 	{
-		value *= -1;
-		res[0] = '-';
+		nb /= base;
+		++len;
 	}
-	while (value >= base)
+	s = (char*)malloc(sizeof(char) * (len + 1));
+	s[len] = '\0';
+	n < 0 ? *s = '-' : 0;
+	nb = n < 0 ? -(long)n : n;
+	while (nb >= base)
 	{
-		res[len--] = bs[value % base];
-		value /= base;
+		s[--len] = nb % base < 10 ? (nb % base) + 48 : (nb % base) + 55;
+		nb /= base;
 	}
-	res[len] = bs[value % base];
-	return (res);
+	s[--len] = nb % base < 10 ? (nb % base) + 48 : (nb % base) + 55;
+	return (s);
 }

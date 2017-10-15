@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/18 00:50:09 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 00:31:51 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 22:06:09 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_ftoa(long double d)
 	return (s);
 }
 
-void	print_prec_width(t_env *e)
+void	print_prec_width(t_pf_env *e)
 {
 	int i;
 	int len;
@@ -89,7 +89,7 @@ void	print_prec_width(t_env *e)
 			write(e->fd, "0", 1) : write(e->fd, " ", 1));
 }
 
-void	nan_inf_long(t_env *e, char type, long double var)
+void	nan_inf_long(t_pf_env *e, char type, long double var)
 {
 	if (var != var)
 	{
@@ -105,10 +105,10 @@ void	nan_inf_long(t_env *e, char type, long double var)
 		else
 			e->ret += write(e->fd, "INF", 3);
 	}
-	e->i++;
+	++e->i;
 }
 
-void	nan_inf(t_env *e, char type, double var)
+void	nan_inf(t_pf_env *e, char type, double var)
 {
 	if (var != var)
 	{
@@ -124,5 +124,5 @@ void	nan_inf(t_env *e, char type, double var)
 		else
 			e->ret += write(e->fd, "INF", 3);
 	}
-	e->i++;
+	++e->i;
 }

@@ -3,54 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/03 21:39:39 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/22 22:47:38 by mikim            ###   ########.fr       */
+/*   Created: 2017/10/09 21:44:39 by mikim             #+#    #+#             */
+/*   Updated: 2017/10/14 23:37:09 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	ft_chklen(int n, int *len)
-{
-	int	i;
-
-	i = 1;
-	if (n < 0)
-	{
-		i++;
-		n *= -1;
-	}
-	while (n > 9)
-	{
-		i++;
-		n /= 10;
-	}
-	*len = i;
-}
-
-char		*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char	*s;
+	long	nb;
 	int		len;
 
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	ft_chklen(n, &len);
-	if (!(s = (char*)malloc(sizeof(char) * (len + 1))))
-		return (NULL);
+	len = 1;
+	n < 0 ? ++len : 0;
+	nb = n < 0 ? -(long)n : n;
+	while (nb > 9)
+	{
+		nb /= 10;
+		++len;
+	}
+	s = (char*)malloc(sizeof(char) * (len + 1));
 	s[len] = '\0';
-	if (n < 0)
+	n < 0 ? *s = '-' : 0;
+	nb = n < 0 ? -(long)n : n;
+	while (nb > 9)
 	{
-		s[0] = '-';
-		n *= -1;
+		s[--len] = (nb % 10) + 48;
+		nb /= 10;
 	}
-	while (n > 9)
-	{
-		s[--len] = (n % 10) + 48;
-		n /= 10;
-	}
-	s[--len] = n + 48;
+	s[--len] = nb + 48;
 	return (s);
 }

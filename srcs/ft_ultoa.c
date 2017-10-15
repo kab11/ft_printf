@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_uns_ltoa.c                                      :+:      :+:    :+:   */
+/*   ft_ultoa.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 20:39:21 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/22 22:49:31 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 21:36:46 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	ft_chklen(unsigned long n, int *len)
+char	*ft_ultoa(unsigned long n)
 {
-	int	i;
+	char			*s;
+	unsigned long	nb;
+	int				len;
 
-	i = 1;
-	while (n > 9)
+	len = 1;
+	nb = n;
+	while (nb > 9)
 	{
-		i++;
-		n /= 10;
+		nb /= 10;
+		++len;
 	}
-	*len = i;
-}
-
-char		*ft_uns_ltoa(unsigned long n)
-{
-	char	*s;
-	int		len;
-
-	ft_chklen(n, &len);
-	if (!(s = (char*)malloc(sizeof(char) * (len + 1))))
-		return (NULL);
+	s = (char*)malloc(sizeof(char) * (len + 1));
 	s[len] = '\0';
 	while (n > 9)
 	{

@@ -1,56 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lltoa.c                                         :+:      :+:    :+:   */
+/*   ft_ultoa_base.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/20 23:12:08 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/24 01:32:19 by mikim            ###   ########.fr       */
+/*   Created: 2017/04/22 17:37:29 by mikim             #+#    #+#             */
+/*   Updated: 2017/10/14 21:36:51 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	ft_chklen(long long n, int *len)
+char	*ft_ultoa_base(unsigned long n, int base)
 {
-	int	i;
+	char			*s;
+	unsigned long	nb;
+	int				len;
 
-	i = 1;
-	if (n < 0)
+	len = 1;
+	nb = n;
+	while (nb >= (unsigned)base)
 	{
-		i++;
-		n *= -1;
+		nb /= base;
+		++len;
 	}
-	while (n > 9)
-	{
-		i++;
-		n /= 10;
-	}
-	*len = i;
-}
-
-char		*ft_lltoa(long long n)
-{
-	char	*s;
-	int		len;
-
-	ft_chklen(n, &len);
-	if (n == LLONG_MIN)
-		return (ft_strdup("-9223372036854775808"));
-	if (!(s = (char*)malloc(sizeof(char) * (len + 1))))
-		return (NULL);
+	s = (char*)malloc(sizeof(char) * (len + 1));
 	s[len] = '\0';
-	if (n < 0)
+	while (n >= (unsigned)base)
 	{
-		s[0] = '-';
-		n *= -1;
+		s[--len] = n % base < 10 ? (n % base) + 48 : (n % base) + 55;
+		n /= base;
 	}
-	while (n > 9)
-	{
-		s[--len] = (n % 10) + 48;
-		n /= 10;
-	}
-	s[--len] = n + 48;
+	s[--len] = n % base < 10 ? (n % base) + 48 : (n % base) + 55;
 	return (s);
 }

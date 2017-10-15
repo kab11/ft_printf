@@ -6,18 +6,18 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 18:40:38 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 22:56:49 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	put_wstr_c(t_env *e, char c)
+void	put_wstr_c(t_pf_env *e, char c)
 {
 	e->ret += write(e->fd, &c, 1);
 }
 
-void	put_wstr(t_env *e, wchar_t c)
+void	put_wstr(t_pf_env *e, wchar_t c)
 {
 	if (c <= 0x7F)
 		put_wstr_c(e, c);
@@ -62,7 +62,7 @@ int		get_wstr_len(wchar_t *wc)
 	return (len);
 }
 
-void	print_wstr_minus(t_env *e, wchar_t *wc, int len)
+void	print_wstr_minus(t_pf_env *e, wchar_t *wc, int len)
 {
 	int i;
 
@@ -82,7 +82,7 @@ void	print_wstr_minus(t_env *e, wchar_t *wc, int len)
 		write(e->fd, "0", 1) : write(e->fd, " ", 1));
 }
 
-void	print_wstr(t_env *e, wchar_t *wc)
+void	print_wstr(t_pf_env *e, wchar_t *wc)
 {
 	int i;
 	int len;
@@ -103,5 +103,5 @@ void	print_wstr(t_env *e, wchar_t *wc)
 			while (wc[++i] != 0)
 				put_wstr(e, wc[i]);
 	}
-	e->i++;
+	++e->i;
 }

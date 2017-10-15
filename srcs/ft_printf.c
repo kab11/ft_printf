@@ -6,13 +6,13 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 16:19:36 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/26 23:45:27 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 20:24:22 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	init_flag(t_flag *flag)
+void	init_flag(t_pf_flag *flag)
 {
 	flag->sp = 0;
 	flag->plus = 0;
@@ -24,9 +24,9 @@ void	init_flag(t_flag *flag)
 	flag->width = 0;
 }
 
-void	print_conversion(const char *restrict fmt, t_env *e)
+void	print_conversion(const char *restrict fmt, t_pf_env *e)
 {
-	e->i++;
+	++e->i;
 	get_tag(fmt, e);
 	get_flag(fmt, e);
 	get_spec(fmt, e);
@@ -34,14 +34,13 @@ void	print_conversion(const char *restrict fmt, t_env *e)
 
 int		ft_printf(const char *restrict fmt, ...)
 {
-	t_env	e;
+	t_pf_env	e;
 
-	e.i = 0;
-	e.ret = 0;
+	ft_bzero(&e, sizeof(e));
 	e.fd = 1;
 	va_start(e.ap[0], fmt);
 	va_copy(e.ap[1], e.ap[0]);
-	while (fmt[e.i] != '\0')
+	while (fmt[e.i])
 	{
 		if (fmt[e.i] == '{')
 			check_settings(fmt, &e);

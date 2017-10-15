@@ -6,13 +6,13 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 01:51:40 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 21:46:05 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_base_pre(t_env *e, char type, long long val)
+void	print_base_pre(t_pf_env *e, char type, long val)
 {
 	if (e->flag.hash && e->out[0] != '\0' && val != 0)
 	{
@@ -35,7 +35,7 @@ void	print_base_pre(t_env *e, char type, long long val)
 	}
 }
 
-void	print_base_width(t_env *e, char type)
+void	print_base_width(t_pf_env *e, char type)
 {
 	int	i;
 	int len;
@@ -62,7 +62,7 @@ void	print_base_width(t_env *e, char type)
 	}
 }
 
-void	check_base_prec(t_env *e, char type)
+void	check_base_prec(t_pf_env *e, char type)
 {
 	char	*tmp;
 	char	*res;
@@ -87,7 +87,7 @@ void	check_base_prec(t_env *e, char type)
 	}
 }
 
-void	print_base(t_env *e, char type, long long val)
+void	print_base(t_pf_env *e, char type, long val)
 {
 	check_base_prec(e, type);
 	if (e->flag.zero)
@@ -108,6 +108,6 @@ void	print_base(t_env *e, char type, long long val)
 		print_base_pre(e, type, val);
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
 	}
-	e->i++;
+	++e->i;
 	free(e->out);
 }

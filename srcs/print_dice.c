@@ -6,18 +6,18 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 20:00:17 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 14:54:58 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 21:59:46 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_dice(t_env *e)
+void	print_dice(t_pf_env *e)
 {
-	long long	ran;
-	char		nb;
-	double		d;
-	int			i;
+	long 	ran;
+	char	nb;
+	double	d;
+	int		i;
 
 	init_int_arg(e, &ran);
 	i = 0;
@@ -33,5 +33,5 @@ void	print_dice(t_env *e)
 	}
 	nb = ((long)d % 6) + 49;
 	e->ret += write(e->fd, &nb, 1);
-	e->i++;
+	++e->i;
 }

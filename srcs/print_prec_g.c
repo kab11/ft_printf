@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 03:15:14 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 22:05:34 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	delete_zero(char *tmp)
 		tmp[i] = '\0';
 }
 
-void	ftoa_prec_fg(t_env *e, long double d, int end)
+void	ftoa_prec_fg(t_pf_env *e, long double d, int end)
 {
 	char	*tmp;
 	char	*nb;
@@ -30,8 +30,8 @@ void	ftoa_prec_fg(t_env *e, long double d, int end)
 
 	tmp = ft_ltoa((long)d);
 	end -= ft_strlen(tmp) - 1;
-	d == 0 ? e->flag.prec-- : 0;
-	d == 0 ? end-- : 0;
+	d == 0 ? --e->flag.prec : 0;
+	d == 0 ? --end : 0;
 	prec = ft_strlen(tmp);
 	num = get_prec_num_f(d, end);
 	nb = (num == 0 ? ft_strdup("0000000") : ft_ftoa(num));
@@ -45,7 +45,7 @@ void	ftoa_prec_fg(t_env *e, long double d, int end)
 	free(nb);
 }
 
-void	ftoa_prec_eg(t_env *e, long double d, char type, int prec)
+void	ftoa_prec_eg(t_pf_env *e, long double d, char type, int prec)
 {
 	char	*tmp;
 	char	*nb;
@@ -66,7 +66,7 @@ void	ftoa_prec_eg(t_env *e, long double d, char type, int prec)
 	free(expo);
 }
 
-void	check_form(t_env *e, long double d, char type)
+void	check_form(t_pf_env *e, long double d, char type)
 {
 	char	*nb;
 	int		neg;
@@ -89,7 +89,7 @@ void	check_form(t_env *e, long double d, char type)
 	ftoa_prec_fg(e, d * neg, e->flag.prec);
 }
 
-void	print_prec_g(t_env *e, long double d, char type)
+void	print_prec_g(t_pf_env *e, long double d, char type)
 {
 	check_form(e, d, type);
 	if (e->flag.minus)
@@ -108,6 +108,6 @@ void	print_prec_g(t_env *e, long double d, char type)
 			write(e->fd, "+", 1) : write(e->fd, " ", 1));
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
 	}
-	e->i++;
+	++e->i;
 	free(e->out);
 }

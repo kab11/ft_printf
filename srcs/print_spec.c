@@ -6,46 +6,41 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 04:03:47 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 19:27:37 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 23:33:54 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	spec_base(t_env *e, char type)
+void	spec_base(t_pf_env *e, char type)
 {
-	long long			tmp;
-	unsigned long long	val;
+	long			tmp;
+	unsigned long	val;
 
 	val = 0;
 	init_int_arg(e, &tmp);
-	if (type == 'O')
-		val = (unsigned long long)tmp;
-	else if (e->mod == hh)
-		val = (unsigned char)tmp;
-	else if (e->mod == h)
-		val = (unsigned short)tmp;
-	else if (e->mod == none)
-		val = (unsigned int)tmp;
-	else if (e->mod == z || e->mod == t || e->mod == j || e->mod == l)
+	if (type == 'O' || e->mod == pf_hh || e->mod == pf_z || e->mod == pf_t ||
+		e->mod == pf_j || e->mod == pf_l || e->mod == pf_ll)
 		val = (unsigned long)tmp;
-	else if (e->mod == ll)
-		val = (unsigned long long)tmp;
-	(type == 'b' || type == 'B') ? e->out = ft_uns_lltoa_base(val, 2) : 0;
-	(type == 'o' || type == 'O') ? e->out = ft_uns_lltoa_base(val, 8) : 0;
-	(type == 'x' || type == 'X') ? e->out = ft_uns_lltoa_base(val, 16) : 0;
-	if (type >= 'b' && type <= 'x')
-		ft_lowcase(e->out);
+	else if (e->mod == pf_h)
+		val = (unsigned short)tmp;
+	else if (e->mod == pf_nomod)
+		val = (unsigned int)tmp;
+	(type == 'b' || type == 'B') ? e->out = ft_ultoa_base(val, 2) : 0;
+	(type == 'o' || type == 'O') ? e->out = ft_ultoa_base(val, 8) : 0;
+	(type == 'x' || type == 'X') ? e->out = ft_ultoa_base(val, 16) : 0;
+	if (type == 'b' || type == 'o' || type == 'x')
+		ft_strlower(e->out);
 	e->flag.minus == 1 ? e->flag.zero = 0 : 0;
-	print_base(e, type, (long long)val);
+	print_base(e, type, (long)val);
 }
 
-void	spec_precision(t_env *e, char type)
+void	spec_precision(t_pf_env *e, char type)
 {
 	long double	ld;
 	double		d;
 
-	if (e->mod == L)
+	if (e->mod == pf_L)
 	{
 		init_long_double(e, &ld);
 		if (ld != ld || (ld * 2 == ld && ld != 0))
@@ -68,7 +63,7 @@ void	spec_precision(t_env *e, char type)
 		return (print_prec_a(e, ld, type));
 }
 
-void	spec_char(t_env *e, char type)
+void	spec_char(t_pf_env *e, char type)
 {
 	char	*stmp;
 	int		ctmp;
@@ -89,34 +84,31 @@ void	spec_char(t_env *e, char type)
 	}
 }
 
-void	spec_unsint(t_env *e, char type)
+void	spec_unsint(t_pf_env *e, char type)
 {
-	long long			tmp;
+	long tmp;
 
 	e->flag.sp = 0;
 	e->flag.plus = 0;
 	init_int_arg(e, &tmp);
 	if (tmp == LLONG_MIN || tmp == LONG_MIN)
 		e->out = ft_strdup("-9223372036854775808");
-	else if (type == 'D' || type == 'U')
-		e->out = ft_uns_lltoa((unsigned long long)tmp);
-	else if (e->mod == h)
-		e->out = ft_uns_lltoa((unsigned short)tmp);
-	else if (e->mod == hh)
-		e->out = ft_uns_lltoa((unsigned char)tmp);
-	else if (e->mod == none && type != 'U')
-		e->out = ft_uns_lltoa((unsigned int)tmp);
-	else if (e->mod == z || e->mod == l || e->mod == t || e->mod == j)
-		e->out = ft_uns_lltoa((unsigned long)tmp);
-	else if (e->mod == ll)
-		e->out = ft_uns_lltoa((unsigned long long)tmp);
+	else if (type == 'D' || type == 'U' || e->mod == pf_z || e->mod == pf_l ||
+			e->mod == pf_t || e->mod == pf_j || e->mod == pf_ll)
+		e->out = ft_ultoa((unsigned long)tmp);
+	else if (e->mod == pf_h)
+		e->out = ft_ultoa((unsigned short)tmp);
+	else if (e->mod == pf_hh)
+		e->out = ft_ultoa((unsigned char)tmp);
+	else if (e->mod == pf_nomod && type != 'U')
+		e->out = ft_ultoa((unsigned int)tmp);
 	print_digit(e);
 }
 
-void	spec_int(t_env *e)
+void	spec_int(t_pf_env *e)
 {
-	long long	tmp;
-	long long	i;
+	long tmp;
+	long i;
 
 	init_int_arg(e, &tmp);
 	i = (long long)tmp;
@@ -124,15 +116,14 @@ void	spec_int(t_env *e)
 	e->flag.prec >= 0 ? e->flag.zero = 0 : 0;
 	if (tmp == LLONG_MIN || tmp == LONG_MIN)
 		e->out = ft_strdup("-9223372036854775808");
-	else if (e->mod == hh)
+	else if (e->mod == pf_hh)
 		e->out = ft_itoa((char)i);
-	else if (e->mod == h)
+	else if (e->mod == pf_h)
 		e->out = ft_itoa((short)i);
-	else if (e->mod == none)
+	else if (e->mod == pf_nomod)
 		e->out = ft_itoa((int)i);
-	else if (e->mod == l || e->mod == t)
+	else if (e->mod == pf_l || e->mod == pf_t ||
+			e->mod == pf_ll || e->mod == pf_j)
 		e->out = ft_ltoa((long)i);
-	else if (e->mod == ll || e->mod == j)
-		e->out = ft_lltoa((long long)i);
 	print_digit(e);
 }

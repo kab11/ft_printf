@@ -1,50 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_uns_itoa_base.c                                 :+:      :+:    :+:   */
+/*   ft_uitoa_base.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/23 21:16:09 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/23 21:41:25 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 23:40:29 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	ft_chklen(unsigned long n, int base, int *len)
+char	*ft_uitoa_base(unsigned int n, int base)
 {
-	int i;
-
-	i = 0;
-	while (n >= (unsigned)base)
-	{
-		n /= base;
-		i++;
-	}
-	*len = i;
-}
-
-char		*ft_uns_itoa_base(unsigned int val, int base)
-{
-	char			*res;
-	char			bs[17];
-	unsigned long	value;
+	char			*s;
+	unsigned int	nb;
 	int				len;
 
 	len = 1;
-	value = (unsigned long)val;
-	ft_strcpy(bs, "0123456789ABCDEF");
-	if (value == 0)
-		return (ft_strdup("0"));
-	ft_chklen(value, base, &len);
-	res = (char*)malloc(sizeof(char) * len + 1);
-	res[len--] = '\0';
-	while (value >= (unsigned)base)
+	nb = n;
+	while (nb >= (unsigned)base)
 	{
-		res[len--] = bs[value % base];
-		value /= base;
+		nb /= base;
+		++len;
 	}
-	res[len] = bs[value % base];
-	return (res);
+	s = (char*)malloc(sizeof(char) * (len + 1));
+	s[len] = '\0';
+	while (n >= (unsigned)base)
+	{
+		s[--len] = n % base < 10 ? (n % base) + 48 : (n % base) + 55;
+		n /= base;
+	}
+	s[--len] = n % base < 10 ? (n % base) + 48 : (n % base) + 55;
+	return (s);
 }

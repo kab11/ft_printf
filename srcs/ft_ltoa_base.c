@@ -6,49 +6,35 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 17:37:29 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/24 01:07:03 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 20:24:03 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	ft_chklen(long n, int base, int *len)
+char	*ft_ltoa_base(long n, int base)
 {
-	int i;
-
-	i = 0;
-	n < 0 ? n *= -1 : 0;
-	if (n < 0)
-		i++;
-	while (n >= 1 || n <= -1)
-	{
-		n /= base;
-		i++;
-	}
-	*len = i;
-}
-
-char		*ft_ltoa_base(long val, int base)
-{
-	char	*res;
-	char	bs[17];
+	char	*s;
+	long	nb;
 	int		len;
 
 	len = 1;
-	val = (long)val;
-	ft_strcpy(bs, "0123456789ABCDEF");
-	if (val == 0)
-		return (ft_strdup("0"));
-	ft_chklen(val, base, &len);
-	res = (char*)malloc(sizeof(char) * len + 1);
-	res[len--] = '\0';
-	val < 0 ? res[0] = '-' : 0;
-	val < 0 ? val *= -1 : 0;
-	while (val >= base)
+	n < 0 ? ++len : 0;
+	nb = n < 0 ? -n : n;
+	while (nb >= base)
 	{
-		res[len--] = bs[val % base];
-		val /= base;
+		nb /= base;
+		++len;
 	}
-	res[len] = bs[val % base];
-	return (res);
+	s = (char*)malloc(sizeof(char) * (len + 1));
+	s[len] = '\0';
+	n < 0 ? *s = '-' : 0;
+	n < 0 ? n = -n : 0;
+	while (n >= base)
+	{
+		s[--len] = n % base < 10 ? (n % base) + 48 : (n % base) + 55;
+		n /= base;
+	}
+	s[--len] = n % base < 10 ? (n % base) + 48 : (n % base) + 55;
+	return (s);
 }

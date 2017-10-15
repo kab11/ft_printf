@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 18:57:18 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 02:28:18 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 22:04:08 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ void	get_a_expo(double d, char type, char **expo)
 			d *= 2;
 		else
 			d /= 2;
-		i++;
+		++i;
 	}
 	tmp = ft_itoa(i);
 	*expo = ft_strjoin(pre, tmp);
 	free(tmp);
 }
 
-void	hex_prec(t_env *e, double d, char **frac, char type)
+void	hex_prec(t_pf_env *e, double d, char **frac, char type)
 {
 	unsigned long	cmp;
 	long			num;
@@ -64,7 +64,7 @@ void	hex_prec(t_env *e, double d, char **frac, char type)
 	}
 }
 
-void	ftoa_prec_a(t_env *e, double d, char type)
+void	ftoa_prec_a(t_pf_env *e, double d, char type)
 {
 	char	*frac;
 	char	*ep;
@@ -87,11 +87,11 @@ void	ftoa_prec_a(t_env *e, double d, char type)
 	{
 		e->flag.plus = 0;
 		e->flag.sp = 0;
-		e->flag.width--;
+		--e->flag.width;
 	}
 }
 
-void	print_prec_a_else(t_env *e, double d, char type)
+void	print_prec_a_else(t_pf_env *e, double d, char type)
 {
 	e->flag.width -= 2;
 	print_prec_width(e);
@@ -100,7 +100,7 @@ void	print_prec_a_else(t_env *e, double d, char type)
 	e->ret += write(e->fd, e->out, ft_strlen(e->out));
 }
 
-void	print_prec_a(t_env *e, double d, char type)
+void	print_prec_a(t_pf_env *e, double d, char type)
 {
 	ftoa_prec_a(e, d, type);
 	if (e->flag.zero)
@@ -120,5 +120,5 @@ void	print_prec_a(t_env *e, double d, char type)
 	else
 		print_prec_a_else(e, d, type);
 	free(e->out);
-	e->i++;
+	++e->i;
 }

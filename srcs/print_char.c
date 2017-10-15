@@ -6,20 +6,20 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 23:27:04 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 21:58:49 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_char_width(t_env *e)
+void	print_char_width(t_pf_env *e)
 {
 	while (e->flag.width-- > 1)
 		e->ret += (e->flag.zero == 1 ?
 		write(e->fd, "0", 1) : write(e->fd, " ", 1));
 }
 
-void	print_null_char(t_env *e)
+void	print_null_char(t_pf_env *e)
 {
 	int len;
 
@@ -28,10 +28,10 @@ void	print_null_char(t_env *e)
 		e->ret += (e->flag.zero == 1 ?
 		write(e->fd, "0", 1) : write(e->fd, " ", 1));
 	e->ret += write(e->fd, "\0", 1);
-	e->i++;
+	++e->i;
 }
 
-void	print_char(t_env *e, char c)
+void	print_char(t_pf_env *e, char c)
 {
 	if (e->flag.minus)
 	{
@@ -43,5 +43,5 @@ void	print_char(t_env *e, char c)
 		print_char_width(e);
 		e->ret += write(e->fd, &c, 1);
 	}
-	e->i++;
+	++e->i;
 }

@@ -6,13 +6,13 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 21:01:00 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 01:02:07 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 23:35:59 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_twenty_to_thirty(t_env *e, char c)
+void	print_twenty_to_thirty(t_pf_env *e, char c)
 {
 	if (c == 21)
 		write(e->fd, "[NAK]", 5);
@@ -38,7 +38,7 @@ void	print_twenty_to_thirty(t_env *e, char c)
 		write(e->fd, "[US]", 4);
 }
 
-void	print_ten_to_twenty(t_env *e, char c)
+void	print_ten_to_twenty(t_pf_env *e, char c)
 {
 	if (c == 11)
 		write(e->fd, "[VT]", 5);
@@ -62,7 +62,7 @@ void	print_ten_to_twenty(t_env *e, char c)
 		write(e->fd, "[DC4]", 5);
 }
 
-void	print_zero_to_ten(t_env *e, char c)
+void	print_zero_to_ten(t_pf_env *e, char c)
 {
 	if (c == 0)
 		write(e->fd, "[NUL]", 5);
@@ -88,24 +88,22 @@ void	print_zero_to_ten(t_env *e, char c)
 		write(e->fd, "[LF]", 4);
 }
 
-void	spec_non_printable(t_env *e)
+void	spec_non_printable(t_pf_env *e)
 {
 	char	*tmp;
-	char	*s;
 	int		i;
 
 	init_str_arg(e, &tmp);
-	s = (char*)tmp;
 	i = -1;
 	while (++i < e->flag.width)
 	{
-		if (s[i] >= 0 && s[i] <= 10)
-			print_zero_to_ten(e, s[i]);
-		else if (s[i] >= 11 && s[i] <= 20)
-			print_ten_to_twenty(e, s[i]);
-		else if (s[i] >= 21 && s[i] <= 31)
-			print_twenty_to_thirty(e, s[i]);
-		e->ret++;
+		if (tmp[i] >= 0 && tmp[i] <= 10)
+			print_zero_to_ten(e, tmp[i]);
+		else if (tmp[i] >= 11 && tmp[i] <= 20)
+			print_ten_to_twenty(e, tmp[i]);
+		else if (tmp[i] >= 21 && tmp[i] <= 31)
+			print_twenty_to_thirty(e, tmp[i]);
+		++e->ret;
 	}
-	e->i++;
+	++e->i;
 }

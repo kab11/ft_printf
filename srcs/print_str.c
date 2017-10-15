@@ -6,13 +6,13 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 19:24:32 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 22:52:54 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_str_width(t_env *e)
+void	print_str_width(t_pf_env *e)
 {
 	int len;
 
@@ -22,7 +22,7 @@ void	print_str_width(t_env *e)
 		write(e->fd, "0", 1) : write(e->fd, " ", 1));
 }
 
-void	print_null_str(t_env *e)
+void	print_null_str(t_pf_env *e)
 {
 	int len;
 
@@ -31,10 +31,10 @@ void	print_null_str(t_env *e)
 		e->ret += (e->flag.zero == 1 ?
 		write(e->fd, "0", 1) : write(e->fd, " ", 1));
 	e->ret += write(e->fd, "(null)", len);
-	e->i++;
+	++e->i;
 }
 
-void	print_str(t_env *e)
+void	print_str(t_pf_env *e)
 {
 	char	*tmp;
 
@@ -54,6 +54,6 @@ void	print_str(t_env *e)
 		print_str_width(e);
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
 	}
-	e->i++;
+	++e->i;
 	free(e->out);
 }

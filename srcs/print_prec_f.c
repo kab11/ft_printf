@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 00:30:59 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 22:04:56 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ long	get_prec_num_f(long double d, int prec)
 	return ((long)d);
 }
 
-void	ftoa_prec_f(t_env *e, long double d)
+void	ftoa_prec_f(t_pf_env *e, long double d)
 {
 	char	*tmp;
 	char	*nb;
@@ -35,7 +35,7 @@ void	ftoa_prec_f(t_env *e, long double d)
 	int		prec;
 
 	tmp = ft_ltoa((long)d);
-	d == 0 ? e->flag.prec-- : 0;
+	d == 0 ? --e->flag.prec : 0;
 	prec = ft_strlen(tmp);
 	num = get_prec_num_f(d, (e->flag.prec >= 0 ? e->flag.prec : 6));
 	nb = (num == 0 ? ft_strdup("0000000") : ft_ftoa(num));
@@ -48,7 +48,7 @@ void	ftoa_prec_f(t_env *e, long double d)
 	free(tmp);
 }
 
-void	print_prec_f(t_env *e, long double d)
+void	print_prec_f(t_pf_env *e, long double d)
 {
 	ftoa_prec_f(e, d);
 	if (e->flag.minus)
@@ -67,6 +67,6 @@ void	print_prec_f(t_env *e, long double d)
 			write(e->fd, "+", 1) : write(e->fd, " ", 1));
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
 	}
-	e->i++;
+	++e->i;
 	free(e->out);
 }

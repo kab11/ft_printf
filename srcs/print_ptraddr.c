@@ -6,13 +6,13 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/27 16:16:19 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 23:35:34 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ptraddr_prec(t_env *e)
+void	ptraddr_prec(t_pf_env *e)
 {
 	char	*tmp;
 	char	*res;
@@ -36,7 +36,7 @@ void	ptraddr_prec(t_env *e)
 	e->out = tmp;
 }
 
-void	print_ptraddr_width(t_env *e)
+void	print_ptraddr_width(t_pf_env *e)
 {
 	int len;
 
@@ -45,13 +45,13 @@ void	print_ptraddr_width(t_env *e)
 		e->ret += write(e->fd, " ", 1);
 }
 
-void	print_ptraddr(t_env *e, char type)
+void	print_ptraddr(t_pf_env *e, char type)
 {
 	if (e->flag.zero && e->flag.prec == -1)
 		e->flag.prec = e->flag.width - 2;
 	ptraddr_prec(e);
 	if (type == 'p')
-		ft_lowcase(e->out);
+		ft_strlower(e->out);
 	if (e->flag.minus)
 	{
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
@@ -62,6 +62,6 @@ void	print_ptraddr(t_env *e, char type)
 		print_ptraddr_width(e);
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
 	}
-	e->i++;
+	++e->i;
 	free(e->out);
 }

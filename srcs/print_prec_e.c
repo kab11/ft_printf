@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 20:03:22 by mikim             #+#    #+#             */
-/*   Updated: 2017/04/28 15:25:41 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/14 22:04:36 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ long	get_prec_num_e(long double d, int prec)
 	return ((long)d);
 }
 
-void	ftoa_prec_e(t_env *e, long double d, char type)
+void	ftoa_prec_e(t_pf_env *e, long double d, char type)
 {
 	char	*tmp;
 	char	*nb;
@@ -79,7 +79,7 @@ void	ftoa_prec_e(t_env *e, long double d, char type)
 	free(expo);
 }
 
-void	print_prec_e(t_env *e, long double d, char type)
+void	print_prec_e(t_pf_env *e, long double d, char type)
 {
 	ftoa_prec_e(e, d, type);
 	if (e->flag.minus)
@@ -98,6 +98,6 @@ void	print_prec_e(t_env *e, long double d, char type)
 			write(e->fd, " ", 1));
 		e->ret += write(e->fd, e->out, ft_strlen(e->out));
 	}
-	e->i++;
+	++e->i;
 	free(e->out);
 }
