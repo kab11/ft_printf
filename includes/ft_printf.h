@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 14:29:51 by mikim             #+#    #+#             */
-/*   Updated: 2017/10/15 00:01:44 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/15 00:12:57 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <limits.h>
 # include <stdint.h>
 
-# define PF_FLAG " #*+-.s123456789Lhjltz"
+# define PF_FLAG " #*+-.s0123456789Lhjltz"
 # define PF_HEX "boxBOX"
 # define PF_UINT "duiDUI"
 # define PF_PREC "fageFAGE"
