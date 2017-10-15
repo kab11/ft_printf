@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:25:42 by mikim             #+#    #+#             */
-/*   Updated: 2017/10/14 23:01:13 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/15 01:30:59 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ void	get_flag(const char *restrict fmt, t_pf_env *e)
 		{
 			e->flag.width = ft_atoi(fmt + e->i);
 			while (fmt[e->i] >= '0' && fmt[e->i] <= '9')
-				e->i++;
+				++e->i;
 		}
 		else
-			e->i++;
+			++e->i;
 	}
 }
 

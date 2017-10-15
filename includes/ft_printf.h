@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 14:29:51 by mikim             #+#    #+#             */
-/*   Updated: 2017/10/15 00:30:46 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/15 00:51:50 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <limits.h>
 # include <stdint.h>
 
-# define PF_FLAG " #*+-.s0123456789Lhjltz"
+# define PF_FLAG " #*+-.0123456789Lhjltz"
 # define PF_HEX "boxBOX"
 # define PF_PREC "fageFAGE"
 # define FT_ISNUM(x) (x >= '0' && x <= '9')
