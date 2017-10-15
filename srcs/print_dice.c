@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 20:00:17 by mikim             #+#    #+#             */
-/*   Updated: 2017/10/14 21:59:46 by mikim            ###   ########.fr       */
+/*   Updated: 2017/10/15 01:55:15 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_dice(t_pf_env *e)
 {
-	long 	ran;
+	long	ran;
 	char	nb;
 	double	d;
 	int		i;
