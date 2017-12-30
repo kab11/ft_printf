@@ -6,7 +6,7 @@
 /*   By: mikim <mikim@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 16:47:27 by mikim             #+#    #+#             */
-/*   Updated: 2017/10/14 21:58:49 by mikim            ###   ########.fr       */
+/*   Updated: 2017/12/29 19:34:16 by mikim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	print_null_char(t_pf_env *e)
 {
 	int len;
 
-	len = (e->flag.prec < 0 ? 6 : e->flag.prec);
 	while (e->flag.width-- > len)
 		e->ret += (e->flag.zero == 1 ?
 		write(e->fd, "0", 1) : write(e->fd, " ", 1));
